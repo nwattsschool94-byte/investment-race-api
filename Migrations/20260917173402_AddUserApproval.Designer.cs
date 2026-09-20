@@ -4,6 +4,7 @@ using InvestmentRace.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvestmentRace.API.Migrations
 {
     [DbContext(typeof(InvestmentRaceDbContext))]
-    partial class InvestmentRaceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260917173402_AddUserApproval")]
+    partial class AddUserApproval
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,34 +101,6 @@ namespace InvestmentRace.API.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("InvestmentRace.API.Models.SocialWorkerYouth", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SocialWorkerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("YouthId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("YouthId");
-
-                    b.HasIndex("SocialWorkerId", "YouthId")
-                        .IsUnique();
-
-                    b.ToTable("SocialWorkerYouths");
-                });
-
             modelBuilder.Entity("InvestmentRace.API.Models.Youth", b =>
                 {
                     b.Property<int>("Id")
@@ -148,37 +123,6 @@ namespace InvestmentRace.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Youths");
-                });
-
-            modelBuilder.Entity("InvestmentRace.API.Models.YouthNote", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedByUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Note")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("YouthId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("YouthId");
-
-                    b.ToTable("YouthNotes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -312,44 +256,6 @@ namespace InvestmentRace.API.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("InvestmentRace.API.Models.SocialWorkerYouth", b =>
-                {
-                    b.HasOne("InvestmentRace.API.Models.ApplicationUser", "SocialWorker")
-                        .WithMany()
-                        .HasForeignKey("SocialWorkerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InvestmentRace.API.Models.Youth", "Youth")
-                        .WithMany()
-                        .HasForeignKey("YouthId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SocialWorker");
-
-                    b.Navigation("Youth");
-                });
-
-            modelBuilder.Entity("InvestmentRace.API.Models.YouthNote", b =>
-                {
-                    b.HasOne("InvestmentRace.API.Models.ApplicationUser", "CreatedByUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InvestmentRace.API.Models.Youth", "Youth")
-                        .WithMany()
-                        .HasForeignKey("YouthId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CreatedByUser");
-
-                    b.Navigation("Youth");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -4,6 +4,7 @@ using InvestmentRace.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvestmentRace.API.Migrations
 {
     [DbContext(typeof(InvestmentRaceDbContext))]
-    partial class InvestmentRaceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260919191710_AddYouthNotes")]
+    partial class AddYouthNotes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,34 +99,6 @@ namespace InvestmentRace.API.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("InvestmentRace.API.Models.SocialWorkerYouth", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateAdded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SocialWorkerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("YouthId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("YouthId");
-
-                    b.HasIndex("SocialWorkerId", "YouthId")
-                        .IsUnique();
-
-                    b.ToTable("SocialWorkerYouths");
                 });
 
             modelBuilder.Entity("InvestmentRace.API.Models.Youth", b =>
@@ -312,25 +287,6 @@ namespace InvestmentRace.API.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("InvestmentRace.API.Models.SocialWorkerYouth", b =>
-                {
-                    b.HasOne("InvestmentRace.API.Models.ApplicationUser", "SocialWorker")
-                        .WithMany()
-                        .HasForeignKey("SocialWorkerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InvestmentRace.API.Models.Youth", "Youth")
-                        .WithMany()
-                        .HasForeignKey("YouthId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SocialWorker");
-
-                    b.Navigation("Youth");
                 });
 
             modelBuilder.Entity("InvestmentRace.API.Models.YouthNote", b =>

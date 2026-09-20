@@ -14,4 +14,21 @@ public class InvestmentRaceDbContext
     }
 
     public DbSet<Youth> Youths { get; set; }
+
+    public DbSet<YouthNote> YouthNotes { get; set; }
+
+    public DbSet<SocialWorkerYouth> SocialWorkerYouths { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        builder.Entity<SocialWorkerYouth>()
+            .HasIndex(x => new
+            {
+                x.SocialWorkerId,
+                x.YouthId
+            })
+            .IsUnique();
+    }
 }
