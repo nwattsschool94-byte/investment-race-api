@@ -84,7 +84,12 @@ app.UseAuthorization();
 // Keep API controller routes working
 app.MapControllers();
 
+// Investment Race React game
+app.MapGet("/game", () => Results.Redirect("/game/index.html"));
+
+// Angular application
 app.MapFallbackToFile("index.html");
+
 
 // Create required roles if they do not already exist
 using (var scope = app.Services.CreateScope())
@@ -102,5 +107,6 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
+
 
 app.Run();
